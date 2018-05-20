@@ -2,8 +2,10 @@ package com.itrex.tasks.twittersearch;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -63,11 +65,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mEmptyView = findViewById(R.id.empty_view);
 
         mAdapter = new TweetsAdapter(mResultsList);
+        prepareRecyclerView();
+    }
 
+    private void prepareRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
+        final DividerItemDecoration itemDecorator = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
+        itemDecorator.setDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.divider));
+        mRecyclerView.addItemDecoration(itemDecorator);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
         mRecyclerView.setAdapter(mAdapter);
     }
 

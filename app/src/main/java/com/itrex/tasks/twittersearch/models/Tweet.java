@@ -26,8 +26,10 @@ public class Tweet {
     }
 
     public String getUserName() {
-        if (user == null) return "FAIL";
-
         return user.getScreenName();
+    }
+
+    public String getProfileImageUrl() {
+        return user.getProfileImageUrl();
     }
 }
