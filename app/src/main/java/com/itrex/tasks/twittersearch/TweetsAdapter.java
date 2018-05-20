@@ -14,6 +14,9 @@ import com.itrex.tasks.twittersearch.models.Tweet;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * @author Anna Pliskovskaya (anna.pliskovskaya@gmail.com)
  * @since 5/20/18
@@ -44,15 +47,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mAvatar;
-        private TextView mUserName;
-        private TextView mText;
+        @BindView(R.id.user_avatar) ImageView mAvatar;
+        @BindView(R.id.user_name) TextView mUserName;
+        @BindView(R.id.tweet_text) TextView mText;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mAvatar = itemView.findViewById(R.id.user_avatar);
-            mUserName = itemView.findViewById(R.id.user_name);
-            mText = itemView.findViewById(R.id.tweet_text);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bind(Tweet tweet) {

@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,16 +25,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private SharedPreferences mSharedPref;
 
-    private EditText mSearchEditText;
-    private TextView mEmptyView;
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.search_edit_txt) EditText mSearchEditText;
+    @BindView(R.id.empty_view) TextView mEmptyView;
+    @BindView(R.id.results_recycler_view) RecyclerView mRecyclerView;
+
     private RecyclerView.LayoutManager mLayoutManager;
 
     private AuthService mAuthService;
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         mAuthService = APIClient.getClient().create(AuthService.class);
         mSearchService = APIClient.getClient().create(SearchService.class);
@@ -56,13 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!mSharedPref.contains(BuildConfig.ACCESS_TOKEN)) {
             fetchAccessToken();
         }
-
-        Button searchBtn = findViewById(R.id.search_btn);
-        searchBtn.setOnClickListener(this);
-
-        mSearchEditText = findViewById(R.id.search_edit_txt);
-        mRecyclerView = findViewById(R.id.results_recycler_view);
-        mEmptyView = findViewById(R.id.empty_view);
 
         mAdapter = new TweetsAdapter(mResultsList);
         prepareRecyclerView();
@@ -76,6 +73,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mRecyclerView.addItemDecoration(itemDecorator);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @OnClick(R.id.search_btn)
+    public void search(View view) {
+        String accessToken = mSharedPref.getString(BuildConfig.ACCESS_TOKEN, "");
+        if (accessToken.isEmpty()) {
+            fetchAccessToken();
+        }
+        searchTweets(accessToken, mSearchEditText.getText().toString());
     }
 
     private void fetchAccessToken() {
@@ -106,15 +112,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         byte[] data = text.getBytes(StandardCharsets.UTF_8);
 
         return Base64.encodeToString(data, Base64.NO_WRAP);
-    }
-
-    @Override
-    public void onClick(View view) {
-        String accessToken = mSharedPref.getString(BuildConfig.ACCESS_TOKEN, "");
-        if (accessToken.isEmpty()) {
-            fetchAccessToken();
-        }
-        searchTweets(accessToken, mSearchEditText.getText().toString());
     }
 
     private void searchTweets(String accessToken, String searchTerm) {
