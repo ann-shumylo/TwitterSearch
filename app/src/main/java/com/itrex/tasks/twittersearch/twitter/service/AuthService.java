@@ -1,6 +1,6 @@
-package com.itrex.tasks.twittersearch.service;
+package com.itrex.tasks.twittersearch.twitter.service;
 
-import com.itrex.tasks.twittersearch.responses.AuthResponse;
+import com.itrex.tasks.twittersearch.twitter.responses.AuthResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Header;

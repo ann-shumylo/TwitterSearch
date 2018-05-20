@@ -1,8 +1,8 @@
-package com.itrex.tasks.twittersearch.responses;
+package com.itrex.tasks.twittersearch.twitter.responses;
 
 import com.google.gson.annotations.SerializedName;
-import com.itrex.tasks.twittersearch.models.SearchMetadata;
-import com.itrex.tasks.twittersearch.models.Tweet;
+import com.itrex.tasks.twittersearch.twitter.models.SearchMetadata;
+import com.itrex.tasks.twittersearch.twitter.models.Tweet;
 
 import java.util.List;
 

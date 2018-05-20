@@ -1,4 +1,4 @@
-package com.itrex.tasks.twittersearch;
+package com.itrex.tasks.twittersearch.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +11,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.itrex.tasks.twittersearch.models.Tweet;
+import com.itrex.tasks.twittersearch.R;
+import com.itrex.tasks.twittersearch.twitter.models.Tweet;
 
 import java.util.List;
 

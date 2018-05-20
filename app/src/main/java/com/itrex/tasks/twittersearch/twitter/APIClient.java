@@ -1,4 +1,6 @@
-package com.itrex.tasks.twittersearch;
+package com.itrex.tasks.twittersearch.twitter;
+
+import com.itrex.tasks.twittersearch.BuildConfig;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

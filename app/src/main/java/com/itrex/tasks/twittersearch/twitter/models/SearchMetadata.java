@@ -1,4 +1,4 @@
-package com.itrex.tasks.twittersearch.models;
+package com.itrex.tasks.twittersearch.twitter.models;
 
 import com.google.gson.annotations.SerializedName;
 

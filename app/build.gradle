@@ -16,11 +16,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "API_DOMAIN", "\"https://api.twitter.com\"")
-        buildConfigField("String", "ACCESS_TOKEN", "\"access_token\"")
-        buildConfigField("String", "DATABASE_NAME", "\"twitter_search_db\"")
-
-        resValue("string", "twitter_customer_key", "qU0sdPvmI1SaDXAHT0wqR7HaD")
-        resValue("string", "twitter_customer_secret", "6LGeIDBUnq3AdWVzXmvYwddbBTVReYntRVqRXV0jHtAH8xV086")
+        buildConfigField("String", "TWITTER_CUSTOMER_KEY", "\"qU0sdPvmI1SaDXAHT0wqR7HaD\"")
+        buildConfigField("String", "TWITTER_CUSTOMER_SECRET", "\"6LGeIDBUnq3AdWVzXmvYwddbBTVReYntRVqRXV0jHtAH8xV086\"")
     }
 
     buildTypes {
