@@ -4,11 +4,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itrex.tasks.twittersearch.responses.SearchResponse;
@@ -19,6 +21,7 @@ import com.itrex.tasks.twittersearch.responses.AuthResponse;
 
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,12 +32,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences mSharedPref;
 
     private EditText mSearchEditText;
-    private ListView mListView;
+    private TextView mEmptyView;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     private AuthService mAuthService;
     private SearchService mSearchService;
 
-    private TweetsAdapter mAdapter;
+    private RecyclerView.Adapter mAdapter;
+    private List<Tweet> mResultsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +59,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         searchBtn.setOnClickListener(this);
 
         mSearchEditText = findViewById(R.id.search_edit_txt);
-        mListView = findViewById(R.id.list_view);
+        mRecyclerView = findViewById(R.id.results_recycler_view);
+        mEmptyView = findViewById(R.id.empty_view);
 
-        mAdapter = new TweetsAdapter(getApplicationContext());
-        mListView.setAdapter(mAdapter);
+        mAdapter = new TweetsAdapter(mResultsList);
+
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void fetchAccessToken() {
@@ -95,12 +107,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (accessToken.isEmpty()) {
             fetchAccessToken();
         }
-
-        getTweets(accessToken, mSearchEditText.getText().toString());
+        searchTweets(accessToken, mSearchEditText.getText().toString());
     }
 
-    private void getTweets(String accessToken, String searchTerm) {
-        mSearchService.getPosts(accessToken, searchTerm, "popular", null).enqueue(new Callback<SearchResponse>() {
+    private void searchTweets(String accessToken, String searchTerm) {
+        mSearchService.getSearchResults(accessToken, searchTerm, "popular", null).enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                 if (!response.isSuccessful()) {
@@ -109,16 +120,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(getApplicationContext(), R.string.search_empty_field_error, Toast.LENGTH_SHORT).show();
                     }
                 } else {
+                    mResultsList.clear();
                     final SearchResponse body = response.body();
                     if (body != null) {
                         final List<Tweet> tweets = body.getStatuses();
-                        mAdapter.clear();
                         if (tweets.size() > 0) {
-                            mAdapter.addAll(tweets);
+                            mEmptyView.setVisibility(View.GONE);
+                            mResultsList.addAll(tweets);
                         } else {
-                            Toast.makeText(getApplicationContext(), R.string.search_empty_tweets_list, Toast.LENGTH_SHORT).show();
+                            mEmptyView.setVisibility(View.VISIBLE);
                         }
                     }
+                    mAdapter.notifyDataSetChanged();
                 }
             }
 
