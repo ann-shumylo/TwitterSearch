@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
  * @author Anna Pliskovskaya (anna.pliskovskaya@gmail.com)
  * @since 5/20/18
  */
-public class TweetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ItemViewHolder> {
     private List<Tweet> mItems = new ArrayList<>();
 
     public TweetsAdapter() {
@@ -31,23 +31,20 @@ public class TweetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
         return new ItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         final Tweet tweet = mItems.get(position);
-        ((ItemViewHolder)holder).bind(tweet);
+        holder.bind(tweet);
     }
 
     @Override
     public int getItemCount() {
-        if (mItems == null || mItems.size() == 0) {
-            return 0;
-        }
-        return mItems.size() + 1;
+        return mItems.size();
     }
 
     public void setTweets(List<Tweet> tweets) {

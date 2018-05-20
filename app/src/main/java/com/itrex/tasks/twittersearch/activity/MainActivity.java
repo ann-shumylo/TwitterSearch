@@ -1,5 +1,8 @@
 package com.itrex.tasks.twittersearch.activity;
 
+import android.content.Intent;
+import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.itrex.tasks.twittersearch.R;
 import com.itrex.tasks.twittersearch.adapters.TweetsAdapter;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements MainViewContract.
     @BindView(R.id.search_edit_txt) EditText mSearchEditText;
     @BindView(R.id.empty_view) TextView mEmptyView;
     @BindView(R.id.results_recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.container) View mContainerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,17 +69,36 @@ public class MainActivity extends AppCompatActivity implements MainViewContract.
 
     @Override
     public void showEmptyFieldMessage() {
-        Toast.makeText(getApplicationContext(), R.string.search_empty_field_error, Toast.LENGTH_SHORT).show();
+        Snackbar.make(mContainerView, R.string.search_empty_field_error, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void showServerErrorMessage() {
-        Toast.makeText(getApplicationContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+        Snackbar.make(mContainerView, R.string.server_error, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void showAuthErrorMessage() {
-        Toast.makeText(getApplicationContext(), R.string.authentication_error, Toast.LENGTH_SHORT).show();
+        Snackbar.make(mContainerView, R.string.authentication_error, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showInternetUnavailableMessage() {
+        Snackbar.make(mContainerView, R.string.no_internet_connection, Snackbar.LENGTH_LONG)
+                .setAction(R.string.go_settings, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mPresenter != null) {
+                            mPresenter.onGoToSettingsClicked();
+                        }
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void showWiFiSettings() {
+        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
     }
 
     @Override

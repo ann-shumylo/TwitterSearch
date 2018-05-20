@@ -2,10 +2,12 @@
     <string name="app_name">TwitterSearch</string>
     <string name="hashtag">#</string>
     <string name="search">Search</string>
-    <string name="search_hint">input here</string>
-    <string name="authentication_error">authentication error</string>
-    <string name="search_empty_field_error">field is empty, write something</string>
-    <string name="search_empty_tweets_list">sorry, nothing to show, try another search</string>
-    <string name="server_error">server error</string>
+    <string name="search_hint">Input here</string>
+    <string name="authentication_error">Authentication error</string>
+    <string name="search_empty_field_error">Field is empty, write something</string>
+    <string name="search_empty_tweets_list">Sorry, nothing to show, try another search</string>
+    <string name="server_error">Server error</string>
     <string name="load_more">Load more</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="go_settings">Settings</string>
 </resources>

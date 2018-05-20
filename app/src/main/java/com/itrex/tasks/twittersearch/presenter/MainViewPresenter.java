@@ -1,11 +1,11 @@
 package com.itrex.tasks.twittersearch.presenter;
 
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.itrex.tasks.twittersearch.twitter.TwitterClient;
 import com.itrex.tasks.twittersearch.contract.MainViewContract;
 import com.itrex.tasks.twittersearch.twitter.models.Tweet;
+import com.itrex.tasks.twittersearch.utils.InternetUtils;
 import com.itrex.tasks.twittersearch.utils.Prefs;
 import com.itrex.tasks.twittersearch.utils.TwitterUtils;
 
@@ -22,6 +22,7 @@ public class MainViewPresenter implements MainViewContract.IMainViewPresenter {
     private TwitterClient mTwitterClient = new TwitterClient();
 
     private String mAccessToken = Prefs.get().getAccessToken();
+    private String mSearchTerm = "";
 
     public MainViewPresenter(MainViewContract.IMainView view) {
         mView = view;
@@ -37,6 +38,25 @@ public class MainViewPresenter implements MainViewContract.IMainViewPresenter {
             public void onSuccess(String accessToken) {
                 setAccessToken(accessToken);
                 saveAccessToken(accessToken);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                showAuthErrorMessage();
+            }
+        });
+    }
+
+    private void fetchTokenAndSearch() {
+        mTwitterClient.authorize(TwitterUtils.getEncodedBearerToken(), new TwitterClient.AuthorizeListener() {
+            @Override
+            public void onSuccess(String accessToken) {
+                setAccessToken(accessToken);
+                saveAccessToken(accessToken);
+
+                if (!TextUtils.isEmpty(mSearchTerm)) {
+                    searchTweets(accessToken, mSearchTerm);
+                }
             }
 
             @Override
@@ -85,18 +105,37 @@ public class MainViewPresenter implements MainViewContract.IMainViewPresenter {
         }
     }
 
+    private void showInternetUnavailableMessage() {
+        if (mView != null) {
+            mView.showInternetUnavailableMessage();
+        }
+    }
+
     private void saveAccessToken(String token) {
         Prefs.get().setAccessToken(token);
     }
 
     @Override
     public void onSearchButtonPressed(String searchTerm) {
-        if (!isAccessTokenExist()) {
-            fetchAccessToken();
-            return;
+        if (InternetUtils.isInternetAvailable()) {
+            mSearchTerm = searchTerm;
+
+            if (!isAccessTokenExist()) {
+                fetchTokenAndSearch();
+                return;
+            }
+            clearResultList();
+            searchTweets(getAccessToken(), mSearchTerm);
+        } else {
+            showInternetUnavailableMessage();
         }
-        clearResultList();
-        searchTweets(getAccessToken(), searchTerm);
+    }
+
+    @Override
+    public void onGoToSettingsClicked() {
+        if (mView != null) {
+            mView.showWiFiSettings();
+        }
     }
 
     private void clearResultList() {

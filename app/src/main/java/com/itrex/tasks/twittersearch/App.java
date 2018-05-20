@@ -9,10 +9,17 @@ import com.itrex.tasks.twittersearch.utils.Prefs;
  * @since 5/20/18
  */
 public class App extends Application {
+    private static Application mInstance;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
+        mInstance = this;
         Prefs.init(this);
+    }
+
+    public static Application getInstance() {
+        return mInstance;
     }
 }

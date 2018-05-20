@@ -3,17 +3,12 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
 
-    dataBinding {
-        enabled = true
-    }
-
     defaultConfig {
         applicationId "com.itrex.tasks.twittersearch"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "TWITTER_CUSTOMER_KEY", "\"qU0sdPvmI1SaDXAHT0wqR7HaD\"")
         buildConfigField("String", "TWITTER_CUSTOMER_SECRET", "\"6LGeIDBUnq3AdWVzXmvYwddbBTVReYntRVqRXV0jHtAH8xV086\"")
@@ -33,8 +28,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation "android.arch.lifecycle:extensions:1.1.0"
-    implementation "android.arch.lifecycle:viewmodel:1.1.0"
+    implementation 'com.android.support:design:27.1.1'
 
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

@@ -10,6 +10,7 @@ public interface MainViewContract {
 
     interface IMainViewPresenter {
         void onSearchButtonPressed(String searchTerm);
+        void onGoToSettingsClicked();
     }
 
     interface IMainView {
@@ -18,5 +19,7 @@ public interface MainViewContract {
         void clearList();
         void showTweets(List<Tweet> tweets);
         void showAuthErrorMessage();
+        void showInternetUnavailableMessage();
+        void showWiFiSettings();
     }
 }
