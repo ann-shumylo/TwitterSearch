@@ -7,4 +7,5 @@
     <string name="search_empty_field_error">field is empty, write something</string>
     <string name="search_empty_tweets_list">sorry, nothing to show, try another search</string>
     <string name="server_error">server error</string>
+    <string name="load_more">Load more</string>
 </resources>
