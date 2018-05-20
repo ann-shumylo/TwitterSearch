@@ -1,7 +1,5 @@
 package com.itrex.tasks.twittersearch.twitter;
 
-import com.itrex.tasks.twittersearch.BuildConfig;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -15,7 +13,7 @@ public class APIClient {
     public static Retrofit getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BuildConfig.API_DOMAIN)
+                    .baseUrl(Constants.API_DOMAIN)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

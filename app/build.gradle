@@ -15,7 +15,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "API_DOMAIN", "\"https://api.twitter.com\"")
         buildConfigField("String", "TWITTER_CUSTOMER_KEY", "\"qU0sdPvmI1SaDXAHT0wqR7HaD\"")
         buildConfigField("String", "TWITTER_CUSTOMER_SECRET", "\"6LGeIDBUnq3AdWVzXmvYwddbBTVReYntRVqRXV0jHtAH8xV086\"")
     }
