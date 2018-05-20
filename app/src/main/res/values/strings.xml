@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TwitterSearch</string>
+    <string name="hashtag">#</string>
+    <string name="search">Search</string>
+    <string name="search_hint">input here</string>
+    <string name="authentication_error">authentication error</string>
+    <string name="search_empty_field_error">field is empty, write something</string>
+    <string name="search_empty_tweets_list">sorry, nothing to show, try another search</string>
+    <string name="server_error">server error</string>
+</resources>
