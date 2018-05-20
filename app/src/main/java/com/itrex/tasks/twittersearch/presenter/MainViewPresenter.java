@@ -1,8 +1,9 @@
 package com.itrex.tasks.twittersearch.presenter;
 
 import android.text.TextUtils;
+import android.widget.Toast;
 
-import com.itrex.tasks.twittersearch.TwitterClient;
+import com.itrex.tasks.twittersearch.twitter.TwitterClient;
 import com.itrex.tasks.twittersearch.contract.MainViewContract;
 import com.itrex.tasks.twittersearch.twitter.models.Tweet;
 import com.itrex.tasks.twittersearch.utils.Prefs;
@@ -15,6 +16,8 @@ import java.util.List;
  * @since 5/20/18
  */
 public class MainViewPresenter implements MainViewContract.IMainViewPresenter {
+    public static final int TWEETS_COUNT = 100;
+
     private MainViewContract.IMainView mView;
     private TwitterClient mTwitterClient = new TwitterClient();
 
@@ -38,13 +41,13 @@ public class MainViewPresenter implements MainViewContract.IMainViewPresenter {
 
             @Override
             public void onError(Throwable error) {
-                //TODO
+                showAuthErrorMessage();
             }
         });
     }
 
     private void searchTweets(String accessToken, String searchTerm) {
-        mTwitterClient.searchTweets(accessToken, searchTerm, new TwitterClient.SearchResultListener() {
+        mTwitterClient.searchTweets(accessToken, searchTerm, TWEETS_COUNT, new TwitterClient.SearchResultListener() {
             @Override
             public void onSuccess(List<Tweet> list) {
                 if (mView != null) {
@@ -73,6 +76,12 @@ public class MainViewPresenter implements MainViewContract.IMainViewPresenter {
     private void showEmptyFieldMessage() {
         if (mView != null) {
             mView.showEmptyFieldMessage();
+        }
+    }
+
+    private void showAuthErrorMessage() {
+        if (mView != null) {
+            mView.showAuthErrorMessage();
         }
     }
 

@@ -14,6 +14,5 @@ import retrofit2.http.Query;
 public interface SearchService {
     @GET("/1.1/search/tweets.json?")
     Call<SearchResponse> getSearchResults(@Header("Authorization") String authorization,
-                                          @Query("q") String term, @Query("result_type") String resultType,
-                                          @Query("cursor") String cursor);
+                                          @Query("q") String term, @Query("count") int count);
 }

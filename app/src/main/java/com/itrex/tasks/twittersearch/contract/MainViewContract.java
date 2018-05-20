@@ -14,11 +14,9 @@ public interface MainViewContract {
 
     interface IMainView {
         void showEmptyFieldMessage();
-
         void showServerErrorMessage();
-
         void clearList();
-
         void showTweets(List<Tweet> tweets);
+        void showAuthErrorMessage();
     }
 }

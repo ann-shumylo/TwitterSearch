@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity implements MainViewContract.
     private MainViewContract.IMainViewPresenter mPresenter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private RecyclerView.Adapter mAdapter;
-    private List<Tweet> mResultsList = new ArrayList<>();
+    private TweetsAdapter mAdapter;
 
     @BindView(R.id.search_edit_txt) EditText mSearchEditText;
     @BindView(R.id.empty_view) TextView mEmptyView;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainViewContract.
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mAdapter = new TweetsAdapter(mResultsList);
+        mAdapter = new TweetsAdapter();
         prepareRecyclerView();
 
         mPresenter = new MainViewPresenter(this);
@@ -76,18 +75,22 @@ public class MainActivity extends AppCompatActivity implements MainViewContract.
     }
 
     @Override
+    public void showAuthErrorMessage() {
+        Toast.makeText(getApplicationContext(), R.string.authentication_error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void clearList() {
-        mResultsList.clear();
+        mAdapter.setTweets(new ArrayList<Tweet>());
     }
 
     @Override
     public void showTweets(List<Tweet> tweets) {
         if (tweets.size() > 0) {
             mEmptyView.setVisibility(View.GONE);
-            mResultsList.addAll(tweets);
+            mAdapter.setTweets(tweets);
         } else {
             mEmptyView.setVisibility(View.VISIBLE);
         }
-        mAdapter.notifyDataSetChanged();
     }
 }

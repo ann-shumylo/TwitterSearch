@@ -1,6 +1,5 @@
-package com.itrex.tasks.twittersearch;
+package com.itrex.tasks.twittersearch.twitter;
 
-import com.itrex.tasks.twittersearch.twitter.APIClient;
 import com.itrex.tasks.twittersearch.twitter.models.Tweet;
 import com.itrex.tasks.twittersearch.twitter.responses.AuthResponse;
 import com.itrex.tasks.twittersearch.twitter.responses.SearchResponse;
@@ -58,8 +57,8 @@ public class TwitterClient {
         });
     }
 
-    public void searchTweets(String accessToken, String searchTerm, final SearchResultListener listener) {
-        mSearchService.getSearchResults("Bearer " + accessToken, searchTerm, "popular", null).enqueue(new Callback<SearchResponse>() {
+    public void searchTweets(String accessToken, String searchTerm, int tweetsCount, final SearchResultListener listener) {
+        mSearchService.getSearchResults("Bearer " + accessToken, searchTerm, tweetsCount).enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                 if (listener == null) return;
